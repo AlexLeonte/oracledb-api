@@ -1,6 +1,9 @@
 package api_support;
 import java.sql.* ;  // for standard JDBC programs
 
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 public class DBConnection {
 	
 	private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver"; 
@@ -27,6 +30,8 @@ public class DBConnection {
 	}
 	
 	public Statement connectToDB(){
+	    final JPanel panel = new JPanel();
+
 		try {
 			
 		      Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -39,9 +44,13 @@ public class DBConnection {
 		      
 			}
 			catch(Exception ex) {
-			    System.out.println("DBConnection class error !");
+			    JOptionPane.showMessageDialog(panel, "Could not open file", "Error", JOptionPane.ERROR_MESSAGE);
+
 				dbconnected = false;
 				return stmt;
+			}catch(Exception ex){
+			    JOptionPane.showMessageDialog(panel, "DBConnection \n" + ex.getMessage() + "\n" + ex.getStackTrace(), "Error", JOptionPane.ERROR_MESSAGE);
+
 			}
 	
 	}

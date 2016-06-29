@@ -3,6 +3,7 @@ package api_support;
 import java.io.File;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class AppEngine {
@@ -41,9 +42,12 @@ public class AppEngine {
 				}
 			}
 			return result;
-		}catch(Exception ex){
-			System.out.println("ERROR IN APPENGINE EXECUTE QUERYFILE FUNCTION !! ");
-			return "ERROR";
+		}catch(SQLException se) {
+			
+			return se.getErrorCode() +"\n" +  se.getMessage();
+			
+		}catch(Exception e){
+			return e.getMessage() + "\n" + e.getLocalizedMessage();
 		}
 	}
 	

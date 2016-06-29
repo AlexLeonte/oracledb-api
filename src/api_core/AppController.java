@@ -62,7 +62,7 @@ public class AppController {
 	private void initialize() {
 		frmOracledpapi = new JFrame();
 		frmOracledpapi.setTitle("Oracle Database API (client)");
-		frmOracledpapi.setBounds(2000, 100, 700, 566);
+		frmOracledpapi.setBounds(2000, 100, 500, 566);
 		frmOracledpapi.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmOracledpapi.getContentPane().setLayout(null);
 		
