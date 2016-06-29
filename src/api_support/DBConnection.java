@@ -15,7 +15,11 @@ public class DBConnection {
 	private Connection conn = null;
 	private Statement stmt = null;
 	
-	public boolean dbconnected = false;
+	 public boolean isDbconnected() {
+		return dbconnected;
+	}
+
+	boolean dbconnected = false;
 	
 	public DBConnection(String phost, String pport, String pdbname,String puserName, String ppassword){
 	
@@ -43,14 +47,15 @@ public class DBConnection {
 		      return stmt;
 		      
 			}
-			catch(Exception ex) {
-			    JOptionPane.showMessageDialog(panel, "Could not open file", "Error", JOptionPane.ERROR_MESSAGE);
+			catch(SQLException ex) {
+			    JOptionPane.showMessageDialog(panel,"DBConnection error : \n" +  ex.getErrorCode() + "\n" + ex.getMessage() + "\n" + ex.getSQLState(), "Error", JOptionPane.ERROR_MESSAGE);
 
 				dbconnected = false;
 				return stmt;
 			}catch(Exception ex){
 			    JOptionPane.showMessageDialog(panel, "DBConnection \n" + ex.getMessage() + "\n" + ex.getStackTrace(), "Error", JOptionPane.ERROR_MESSAGE);
-
+			    dbconnected = false;
+				return stmt;
 			}
 	
 	}

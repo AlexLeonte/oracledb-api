@@ -17,15 +17,14 @@ import javax.swing.JTextField;
 public class AppController {
 
 	private JFrame frmOracledpapi;
-	public InputDevice id;
-	public AppEngine  engine;
+	private AppEngine  engine;
 	
-	JTextArea textAreaMain;
+	private JTextArea textAreaMain;
 	
 	
-	TextField inputDatabaseName;
-	TextField inputUserName;
-	JTextField inputPassword;
+	private TextField inputDatabaseName;
+	private TextField inputUserName;
+	private JTextField inputPassword;
 	private JTextField inputPort;
 	private JTextField inputHostName;
 	
@@ -62,15 +61,15 @@ public class AppController {
 	private void initialize() {
 		frmOracledpapi = new JFrame();
 		frmOracledpapi.setTitle("Oracle Database API (client)");
-		frmOracledpapi.setBounds(2000, 100, 500, 566);
+		frmOracledpapi.setBounds(2000, 100, 1000, 566);
 		frmOracledpapi.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmOracledpapi.getContentPane().setLayout(null);
-		
+		frmOracledpapi.setLocationRelativeTo(null);
 		JButton startConnection = new JButton("Connect to a database specific schema");
 		startConnection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				id = new InputDevice(inputHostName.getText(), inputPort.getText(), inputDatabaseName.getText(),  inputUserName.getText(), inputPassword.getText());
+				InputDevice id = new InputDevice(inputHostName.getText(), inputPort.getText(), inputDatabaseName.getText(),  inputUserName.getText(), inputPassword.getText());
 			
 				
 				textAreaMain.setText(id.toString());

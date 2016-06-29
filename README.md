@@ -2,6 +2,17 @@
 
 Dependinte:
 oracle database 12c
+-su oracle
+-$ORACLE_HOME/bin/lsnrctl start
+-sqlplus
+-user-name: sys as sysdba
+-password: systempass????
+-startup;
+-exit;
+-sqlplus
+-username ? 
+-password ?....
+
 ojdbc7.jar ( se gaseste in oracledb-api/
 java 1.8
 

@@ -6,18 +6,18 @@ import api_support.DBConnection;
 
 public class InputDevice {
 	
-	DBConnection dbconn ;
-	public String dbStatus;
-	boolean dbConnected = false;
-	Statement stmt = null;
+	private DBConnection dbconn ;
+	private String dbStatus;
+	private boolean dbConnected = false;
+	private Statement stmt = null;
 
 	public InputDevice(String plocalhost, String pport, String pdbname, String pusername, String ppasword){
 	
-//		dbconn = new DBConnection(plocalhost, pport, pdbname, pusername, ppasword);
-		dbconn = new DBConnection("localhost", "1522", "ORCL", "alex", "alexpass");
+		dbconn = new DBConnection(plocalhost, pport, pdbname, pusername, ppasword);
+//		dbconn = new DBConnection("localhost", "1522", "ORCL", "alex", "alexpass");
 		stmt = dbconn.connectToDB();
 		
-		dbConnected = dbconn.dbconnected;
+		dbConnected = dbconn.isDbconnected();
 		
 		
 		
@@ -29,7 +29,7 @@ public class InputDevice {
 	
 	
 	public boolean connectedSucces(){
-		return dbconn.dbconnected;
+		return dbconn.isDbconnected();
 
 	}
 	
