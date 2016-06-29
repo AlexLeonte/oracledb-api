@@ -1,5 +1,5 @@
 package api_core;
-
+import api_support.AppEngine;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -18,8 +18,19 @@ public class AppController {
 
 	private JFrame frmOracledpapi;
 	public InputDevice id;
+	public AppEngine  engine;
+	
 	JTextArea textAreaMain;
 	
+	
+	TextField inputDatabaseName;
+	TextField inputUserName;
+	JTextField inputPassword;
+	private JTextField inputPort;
+	private JTextField inputHostName;
+	
+	private TextField inputQueryFile;
+
 	/**
 	 * Launch the application.
 	 */
@@ -41,7 +52,6 @@ public class AppController {
 	 * Create the application.
 	 */
 	public AppController() {
-		id = new InputDevice();
 		initialize();
 	
 	}
@@ -52,18 +62,30 @@ public class AppController {
 	private void initialize() {
 		frmOracledpapi = new JFrame();
 		frmOracledpapi.setTitle("Oracle Database API (client)");
-		frmOracledpapi.setBounds(2000, 100, 1200, 566);
+		frmOracledpapi.setBounds(2000, 100, 700, 566);
 		frmOracledpapi.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmOracledpapi.getContentPane().setLayout(null);
 		
-		JButton btnStatus = new JButton("Connect to a database specific schema");
-		btnStatus.addActionListener(new ActionListener() {
+		JButton startConnection = new JButton("Connect to a database specific schema");
+		startConnection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				textAreaMain.setText(id.getDbConnectionStatus());
+				
+				id = new InputDevice(inputHostName.getText(), inputPort.getText(), inputDatabaseName.getText(),  inputUserName.getText(), inputPassword.getText());
+			
+				
+				textAreaMain.setText(id.toString());
+				
+				if(id.connectedSucces() == true){
+					 engine = new AppEngine(id.getDBStatement());
+				}else{
+					
+				}
+				
+				
 			}
 		});
-		btnStatus.setBounds(12, 77, 330, 25);
-		frmOracledpapi.getContentPane().add(btnStatus);
+		startConnection.setBounds(12, 108, 330, 25);
+		frmOracledpapi.getContentPane().add(startConnection);
 		
 		textAreaMain = new JTextArea();
 		textAreaMain.setBounds(483, 0, 678, 479);
@@ -74,56 +96,89 @@ public class AppController {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		buttonStatus.setBounds(12, 114, 330, 25);
+		buttonStatus.setBounds(12, 145, 330, 25);
 		frmOracledpapi.getContentPane().add(buttonStatus);
 		
 		JButton btnNewButton_2 = new JButton("List table structure:");
-		btnNewButton_2.setBounds(12, 182, 238, 25);
+		btnNewButton_2.setBounds(22, 207, 238, 25);
 		frmOracledpapi.getContentPane().add(btnNewButton_2);
 		
-		TextField textField = new TextField();
-		textField.setBounds(87, 11, 163, 27);
-		frmOracledpapi.getContentPane().add(textField);
+		inputDatabaseName = new TextField();
+		inputDatabaseName.setBounds(95, 77, 155, 25);
+		frmOracledpapi.getContentPane().add(inputDatabaseName);
 		
 		JLabel lblNewLabel = new JLabel("Database:");
-		lblNewLabel.setBounds(12, 23, 163, 15);
+		lblNewLabel.setBounds(12, 87, 163, 15);
 		frmOracledpapi.getContentPane().add(lblNewLabel);
 		
-		JLabel lblSchema = new JLabel("Schema:");
+		JLabel lblSchema = new JLabel("User:");
 		lblSchema.setBounds(12, 50, 70, 15);
 		frmOracledpapi.getContentPane().add(lblSchema);
 		
-		TextField textField_1 = new TextField();
-		textField_1.setBounds(87, 44, 163, 25);
-		frmOracledpapi.getContentPane().add(textField_1);
+		inputUserName = new TextField();
+		inputUserName.setBounds(87, 44, 163, 25);
+		frmOracledpapi.getContentPane().add(inputUserName);
 		
 		TextField textField_2 = new TextField();
-		textField_2.setBounds(87, 145, 155, 25);
+		textField_2.setBounds(65, 176, 155, 25);
 		frmOracledpapi.getContentPane().add(textField_2);
 		
 		JLabel lblNewLabel_1 = new JLabel("Table:");
-		lblNewLabel_1.setBounds(22, 151, 70, 15);
+		lblNewLabel_1.setBounds(12, 182, 70, 15);
 		frmOracledpapi.getContentPane().add(lblNewLabel_1);
 		
 		JButton btnNewButton = new JButton("List table data");
-		btnNewButton.setBounds(258, 182, 213, 25);
+		btnNewButton.setBounds(262, 207, 213, 25);
 		frmOracledpapi.getContentPane().add(btnNewButton);
 		
 		JLabel lblQuery = new JLabel("Query:");
-		lblQuery.setBounds(22, 219, 47, 15);
+		lblQuery.setBounds(12, 244, 47, 15);
 		frmOracledpapi.getContentPane().add(lblQuery);
 		
-		TextField textField_3 = new TextField();
-		textField_3.setBounds(75, 219, 402, 27);
-		frmOracledpapi.getContentPane().add(textField_3);
+		inputQueryFile = new TextField();
+		inputQueryFile.setBounds(54, 259, 402, 27);
+		frmOracledpapi.getContentPane().add(inputQueryFile);
 		
 		JButton btnNewButton_1 = new JButton("Execute");
-		btnNewButton_1.setBounds(12, 255, 117, 25);
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				textAreaMain.setText(engine.executeQueryFile(inputQueryFile.getText()));
+			}
+		});
+		btnNewButton_1.setBounds(12, 292, 117, 25);
 		frmOracledpapi.getContentPane().add(btnNewButton_1);
 		
 		JLabel lblFile = new JLabel("File:");
-		lblFile.setBounds(22, 233, 70, 15);
+		lblFile.setBounds(12, 271, 70, 15);
 		frmOracledpapi.getContentPane().add(lblFile);
+		
+		JLabel lblNewLabel_2 = new JLabel("Password:");
+		lblNewLabel_2.setBounds(262, 45, 88, 25);
+		frmOracledpapi.getContentPane().add(lblNewLabel_2);
+		
+		inputPassword = new JTextField();
+		inputPassword.setBounds(349, 47, 126, 21);
+		frmOracledpapi.getContentPane().add(inputPassword);
+		inputPassword.setColumns(10);
+		
+		JLabel lblPort = new JLabel("Port:");
+		lblPort.setBounds(283, 22, 70, 15);
+		frmOracledpapi.getContentPane().add(lblPort);
+		
+		inputPort = new JTextField();
+		inputPort.setBounds(349, 18, 126, 23);
+		frmOracledpapi.getContentPane().add(inputPort);
+		inputPort.setColumns(10);
+		
+		JLabel lblIp = new JLabel("Hostname:");
+		lblIp.setBounds(12, 14, 107, 24);
+		frmOracledpapi.getContentPane().add(lblIp);
+		
+		inputHostName = new JTextField();
+		inputHostName.setBounds(91, 12, 159, 26);
+		frmOracledpapi.getContentPane().add(inputHostName);
+		inputHostName.setColumns(10);
 		
 	}
 }
