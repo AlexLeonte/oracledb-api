@@ -42,7 +42,6 @@ public class DBConnection {
 		      conn = DriverManager.getConnection(dbURL, userName, password);      
 		      stmt = conn.createStatement();
 		      dbconnected = true;
-		      
 		      System.out.println(stmt.executeQuery("Select * from all_users"));
 		      return stmt;
 		      
@@ -63,6 +62,10 @@ public class DBConnection {
 	public String toString(){
 		return "DBConnection info:\n"+ JDBC_DRIVER+"\n"+ dbURL + "\n" + userName + "\n" + password ;		
 		
+	}
+	
+	public static String getUserName(){
+		return userName;
 	}
 	
 

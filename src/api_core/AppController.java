@@ -20,7 +20,7 @@ public class AppController {
 	private AppEngine  engine;
 	
 	private JTextArea textAreaMain;
-	
+	InputDevice id; 
 	
 	private TextField inputDatabaseName;
 	private TextField inputUserName;
@@ -29,6 +29,7 @@ public class AppController {
 	private JTextField inputHostName;
 	
 	private TextField inputQueryFile;
+	TextField inputTableName;
 
 	/**
 	 * Launch the application.
@@ -52,7 +53,6 @@ public class AppController {
 	 */
 	public AppController() {
 		initialize();
-	
 	}
 
 	/**
@@ -69,10 +69,10 @@ public class AppController {
 		startConnection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				InputDevice id = new InputDevice(inputHostName.getText(), inputPort.getText(), inputDatabaseName.getText(),  inputUserName.getText(), inputPassword.getText());
-			
+				//create connection
+				id = new InputDevice(inputHostName.getText(), inputPort.getText(), inputDatabaseName.getText(),  inputUserName.getText(), inputPassword.getText());
 				
-				textAreaMain.setText(id.toString());
+				textAreaMain.append("\n" + id.toString() + "\n++++++++\n+");
 				
 				if(id.connectedSucces() == true){
 					 engine = new AppEngine(id.getDBStatement());
@@ -86,9 +86,13 @@ public class AppController {
 		startConnection.setBounds(12, 108, 330, 25);
 		frmOracledpapi.getContentPane().add(startConnection);
 		
-		textAreaMain = new JTextArea();
+
+		textAreaMain = new JTextArea("WELCOME TO ORACLEDB-API ! \n");
 		textAreaMain.setBounds(483, 0, 678, 479);
+		textAreaMain.setEditable(false);
+		
 		frmOracledpapi.getContentPane().add(textAreaMain);
+		
 		
 		JButton buttonStatus = new JButton("List DB schema structure:");
 		buttonStatus.addActionListener(new ActionListener() {
@@ -99,6 +103,12 @@ public class AppController {
 		frmOracledpapi.getContentPane().add(buttonStatus);
 		
 		JButton btnNewButton_2 = new JButton("List table structure:");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				textAreaMain.append("\n" + engine.listTableStructure(inputTableName.getText() )+ "+\n++++++++\n+");
+			}
+		});
 		btnNewButton_2.setBounds(22, 207, 238, 25);
 		frmOracledpapi.getContentPane().add(btnNewButton_2);
 		
@@ -118,9 +128,9 @@ public class AppController {
 		inputUserName.setBounds(87, 44, 163, 25);
 		frmOracledpapi.getContentPane().add(inputUserName);
 		
-		TextField textField_2 = new TextField();
-		textField_2.setBounds(65, 176, 155, 25);
-		frmOracledpapi.getContentPane().add(textField_2);
+		inputTableName = new TextField();
+		inputTableName.setBounds(65, 176, 155, 25);
+		frmOracledpapi.getContentPane().add(inputTableName);
 		
 		JLabel lblNewLabel_1 = new JLabel("Table:");
 		lblNewLabel_1.setBounds(12, 182, 70, 15);
@@ -142,7 +152,11 @@ public class AppController {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				textAreaMain.setText(engine.executeQueryFile(inputQueryFile.getText()));
+				try{
+				textAreaMain.append("\n" + engine.executeQueryFile(inputQueryFile.getText()) + "+\n++++++++\n+");
+				}catch(Exception e){
+					textAreaMain.append("lol");
+				}
 			}
 		});
 		btnNewButton_1.setBounds(12, 292, 117, 25);
