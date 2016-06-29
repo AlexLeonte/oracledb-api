@@ -1,41 +1,29 @@
 # oracledb-api
-
-Dependinte:
-oracle database 12c
--su oracle
--$ORACLE_HOME/bin/lsnrctl start
--sqlplus
--user-name: sys as sysdba
--password: systempass????
--startup;
--exit;
--sqlplus
--username ? 
--password ?....
-
-ojdbc7.jar ( se gaseste in oracledb-api/
-java 1.8
+Requirements:
+ oracle database 12c 
+ojdbc7.jar ( oracledb-api/ojdbc7)
+jdk 1.8
+$ORACLE_HOME/bin/lsnrctl star 
+sqlplus 
+startup; 
 
 
+Feature1: Connect to the database
+Input:Hostname, Port, Username (sys as sysdba or any user..) , Password ,Database name
+Output:connection succes or not .
 
-Merg butoanele:
-1. Connect to a databse specific schema ( dupa ce se introduc inputurle : hostname, port,user, password, databes name.
+Feature2:List table structure
+Input:table name
+Output: shows column name and type
 
-2.Execute ( accepta doar queryuri momentan nu este implementata si optiunea sa citeasca din fisier si sa execute "script")
+Feature3:Execute  ( !!! ONLY QUERY,  FILE OPTION IS NOT IMPLEMENTED "YET" ) 
+Input: query ... without " ; "
+Output: shows ...whatever you asked for
 
-Afisarea se face in textfieldul din dreapta.
+Feature4:Clear button ( I did not know how to implement scroll bar into textArea) 
 
-
-Descriere:
-
-Clasa ApplicationController - preia inputuri, proceseaza trigerele de la butoane ( click ).
-
-Clasa InputDevice ete un intermediar intre ApplicationController si DBConnection ( pentru viitoare updateuri ).
-
-Clasa AppEngine - executa queriuri ( 	Statement stmt = stmt definit in dbconnection) .
-
-momentan afisarea o face ApplicationController ( pentru viitor ar fi ok sa adaug un OutputDevice sa se ocupe de treaba asta )
-
-
-
+Future development:
+Help button
+Query from file 
+New class OutputDevice for coustomizing the output
 
