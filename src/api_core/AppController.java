@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 public class AppController {
 
 	private JFrame frmOracledpapi;
-	private AppEngine  engine;
+	private AppEngine  engine = null;
 	
 	private JTextArea textAreaMain;
 	InputDevice id; 
@@ -77,7 +77,7 @@ public class AppController {
 				if(id.connectedSucces() == true){
 					 engine = new AppEngine(id.getDBStatement());
 				}else{
-					
+					//error already handled ;)
 				}
 				
 				
@@ -88,13 +88,14 @@ public class AppController {
 		
 
 		textAreaMain = new JTextArea("WELCOME TO ORACLEDB-API ! \n");
-		textAreaMain.setBounds(483, 0, 678, 479);
+		textAreaMain.setBounds(503, 0, 469, 487);
 		textAreaMain.setEditable(false);
 		
 		frmOracledpapi.getContentPane().add(textAreaMain);
 		
 		
 		JButton buttonStatus = new JButton("List DB schema structure:");
+		buttonStatus.setVisible(false);
 		buttonStatus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -105,9 +106,14 @@ public class AppController {
 		JButton btnNewButton_2 = new JButton("List table structure:");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				textAreaMain.append("\n" + engine.listTableStructure(inputTableName.getText() )+ "+\n++++++++\n+");
+				if(engine != null ){
+					textAreaMain.append("\n" + engine.listTableStructure(inputTableName.getText() )+ "+\n++++++++\n+");
+				}else{
+					textAreaMain.append("\n" + "No engine . No db connection . Error  \n++++++++\n+");
+				}
 			}
+				
+				
 		});
 		btnNewButton_2.setBounds(22, 207, 238, 25);
 		frmOracledpapi.getContentPane().add(btnNewButton_2);
@@ -137,6 +143,11 @@ public class AppController {
 		frmOracledpapi.getContentPane().add(lblNewLabel_1);
 		
 		JButton btnNewButton = new JButton("List table data");
+		btnNewButton.setVisible(false);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnNewButton.setBounds(262, 207, 213, 25);
 		frmOracledpapi.getContentPane().add(btnNewButton);
 		
@@ -192,6 +203,15 @@ public class AppController {
 		inputHostName.setBounds(91, 12, 159, 26);
 		frmOracledpapi.getContentPane().add(inputHostName);
 		inputHostName.setColumns(10);
+		
+		JButton btnClear = new JButton("Clear");
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				textAreaMain.setText("");
+			}
+		});
+		btnClear.setBounds(516, 499, 117, 25);
+		frmOracledpapi.getContentPane().add(btnClear);
 		
 	}
 }

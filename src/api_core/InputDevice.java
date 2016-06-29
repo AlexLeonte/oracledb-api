@@ -15,8 +15,8 @@ public class InputDevice {
 	public InputDevice(String plocalhost, String pport, String pdbname, String pusername, String ppasword){
 	
 		
-//		dbconn = new DBConnection(plocalhost, pport, pdbname, pusername, ppasword);
-	dbconn = new DBConnection("localhost", "1522", "ORCL", "alex", "alexpass");
+		dbconn = new DBConnection(plocalhost, pport, pdbname, pusername, ppasword);
+//	dbconn = new DBConnection("localhost", "1522", "ORCL", "alex", "alexpass");
 		stmt = dbconn.connectToDB();
 		
 		dbConnected = dbconn.isDbconnected();
